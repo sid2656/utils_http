@@ -22,19 +22,12 @@ import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 
 public class HttpClientUtil {
 	
-	private static final Logger logger = LoggerFactory.getLogger(HttpClientUtil.class);
-	
 	@SuppressWarnings({ "rawtypes" })
 	public String get(String url,Map map){
-		if (logger.isDebugEnabled()) {
-			logger.debug("获取访问电召平台的URL(id, date,type,fee) - start"+url); //$NON-NLS-1$
-		}
 		String body=null;
 		// 处理对象
 		CloseableHttpClient client = HttpClients.createDefault();
@@ -49,7 +42,6 @@ public class HttpClientUtil {
 		try {
 			String str=EntityUtils.toString(new UrlEncodedFormEntity(list));
 		
-			System.out.println(httpget.getURI().toString()+"?"+str);
 			httpget.setURI(new URI(httpget.getURI().toString()+"?"+str));
 			HttpResponse response=client.execute(httpget);
 			int statusCode = response.getStatusLine().getStatusCode();
@@ -105,6 +97,39 @@ public class HttpClientUtil {
 		} catch (ClientProtocolException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
+			e.printStackTrace();
+		} finally{
+			try {
+				client.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		return body;
+	}
+
+	@SuppressWarnings({ "rawtypes" })
+	public String open(String url) {
+		String body=null;
+		// 处理对象
+		CloseableHttpClient client = HttpClients.createDefault();
+		HttpGet httpget=new HttpGet(url);
+		try {
+			httpget.setURI(new URI(httpget.getURI().toString()));
+			HttpResponse response=client.execute(httpget);
+			int statusCode = response.getStatusLine().getStatusCode();
+			if (statusCode==401||statusCode==400) {
+				return null;
+			}
+			HttpEntity entity=response.getEntity();
+			body=EntityUtils.toString(entity);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (URISyntaxException e) {
 			e.printStackTrace();
 		} finally{
 			try {
