@@ -43,7 +43,6 @@ public class HttpBackServer implements Runnable {
 		new Thread(this).start();
 	}
 	
-	@Override
 	public void run() {
 		while (isRunning) {//一直监听，直到受到停止的命令
 			Socket socket = null;
