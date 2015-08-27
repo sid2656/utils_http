@@ -34,9 +34,17 @@ public class HttpClientTest {
 		HashMap map = new HashMap();
 //		map.put("id", "123");
 //		String post = client.post("http://localhost:9090/user/post", map);
-		map.put("merchantId", "110000");
-		map.put("viewUserId", "110000");
-		String post = client.post("http://localhost:9090/api/babyrun/v3/merchant/get", map);
+		map.put("targetId", "55de82e2d604771ac8a94314");
+		map.put("path", "/api/babyrun/v3/access0");
+		map.put("des", "test00");
+		map.put("auth", 1);
+		map.put("skip", 0);
+		map.put("size", 30);
+//		String post = client.post("http://localhost:9090/api/babyrun/v3/access/add", map);
+		String post = client.post("http://localhost:9090/api/babyrun/v3/access/get", map);
+//		String post = client.post("http://localhost:9090/api/babyrun/v3/access/update", map);
+//		String post = client.post("http://localhost:9090/api/babyrun/v3/access/del", map);
+//		String post = client.post("http://localhost:9090/api/babyrun/v3/access/list", map);
 		System.out.println(post);
 	}
 	
