@@ -87,6 +87,8 @@ public class HttpClientUtil {
 		}
 		try {
 			httppost.setEntity(new UrlEncodedFormEntity(list));
+			//设置字符集
+//			httppost.setEntity(new UrlEncodedFormEntity(list, "GBK"));
 			
 			HttpResponse response=client.execute(httppost);
 			HttpEntity entity=response.getEntity();
